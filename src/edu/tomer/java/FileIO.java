@@ -38,9 +38,13 @@ public class FileIO {
     }
 
     public static void write(String file, String data){
+       write(file, data, false);
+    }
+
+    public static void write(String file, String data, boolean append){
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(file, true);
+            fileWriter = new FileWriter(file, append);
             fileWriter.write(data);
         } catch (IOException e) {
             e.printStackTrace();
