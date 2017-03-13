@@ -1,28 +1,52 @@
 package edu.tomer.java;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by hackeru on 13/03/2017.
  */
 public class FileIO {
+
+    public static String read(String file){
+        BufferedReader reader = null;
+        try {
+            StringBuilder builder = new StringBuilder();
+            reader = new BufferedReader(new FileReader(file));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            return builder.toString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+          close(reader);
+        }
+        return null;
+    }
+
+    private static void close(Closeable closable) {
+        if (closable != null) {
+            try {
+                closable.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void write(String file, String data){
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(file);
+            fileWriter = new FileWriter(file, true);
             fileWriter.write(data);
         } catch (IOException e) {
             e.printStackTrace();
         }
         finally {
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            close(fileWriter);
         }
     }
 }
